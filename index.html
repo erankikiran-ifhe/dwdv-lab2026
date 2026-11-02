@@ -14,7 +14,6 @@
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
   <style>
-    /* Prevent text selection */
     body {
       -webkit-user-select: none;
       -moz-user-select: none;
@@ -31,53 +30,220 @@
     const { useState, useEffect } = React;
 
     // 1. Pre-populated Student Database
-    const VALID_STUDENT_IDS = ["STD1001", "STD1002", "STD1003", "STD1004", "STD1005"];
+    const VALID_STUDENT_IDS = ['24STUCHH010477',
+'24STUCHH010506',
+'24STUCHH010601',
+'24STUCHH010603',
+'24STUCHH010608',
+'24STUCHH010609',
+'24STUCHH010619',
+'24STUCHH010620',
+'24STUCHH010626',
+'24STUCHH010633',
+'24STUCHH010644',
+'24STUCHH010646',
+'24STUCHH010648',
+'24STUCHH010651',
+'24STUCHH010659',
+'24STUCHH010664',
+'24STUCHH010666',
+'24STUCHH010669',
+'24STUCHH010673',
+'24STUCHH010672',
+'24STUCHH010674',
+'24STUCHH010676',
+'24STUCHH010682',
+'24STUCHH010687',
+'24STUCHH010688',
+'24STUCHH010689',
+'24STUCHH010697',
+'24STUCHH010699',
+'24STUCHH010702',
+'24STUCHH010707',
+'24STUCHH010709',
+'24STUCHH010712',
+'24STUCHH010720',
+'24STUCHH010721',
+'24STUCHH010722',
+'24STUCHH010723',
+'24STUCHH010726',
+'24STUCHH010734',
+'24STUCHH010737',
+'24STUCHH010741',
+'24STUCHH010744',
+'24STUCHH010746',
+'24STUCHH010752',
+'24STUCHH010754',
+'24STUCHH010756',
+'24STUCHH010758',
+'24STUCHH010759',
+'24STUCHH010760',
+'24STUCHH010764',
+'24STUCHH010774',
+'24STUCHH010780',
+'24STUCHH010782',
+'24STUCHH010783',
+'24STUCHH010786',
+'24STUCHH010823',
+'24STUCHH010833',
+'24STUCHH010834',
+'24STUCHH010868'];
 
-    // 2. Lab Activities Pool (5 Activities)
+    // 2. Comprehensive Lab Activities Pool (6 Modules x 20 Questions)
     const LAB_ACTIVITIES = [
       {
-        lab: "Lab 1: Python Basics",
+        lab: "Lab 1: Case Study on Canada Immigration Dataset",
         questions: [
-          "Write a Python program to swap two variables without using a third variable.",
-          "Create a function that checks whether a given string is a palindrome.",
-          "Write a script to compute the factorial of a number using recursion."
+          "Load the Canada Immigration dataset into R using readxl::read_excel() or read.csv() and display its dimensions.",
+          "Display the column names, structure (str()), and summary statistics of the dataset.",
+          "Rename messy column names (e.g., OdName to Country, AreaName to Continent, RegName to Region).",
+          "Subset the dataset to include only the country names and annual immigration totals from 1980 to 2013.",
+          "Create a total column representing the aggregate number of immigrants per country over the 34-year period.",
+          "Set the Country column as the row index/names of your dataset for easier querying.",
+          "Identify the top 5 countries that contributed the highest number of total immigrants to Canada.",
+          "Filter the dataset to view immigration statistics specifically for India and China from 2000 to 2013.",
+          "Filter and extract records for all countries belonging to the continent of 'Asia'.",
+          "Calculate the annual average number of immigrants entering Canada across all countries for each year from 1980 to 2013.",
+          "Compute the percentage contribution of each continent to Canada’s total overall immigration.",
+          "Find the year in which Haiti experienced its highest immigration spike to Canada and extract the count.",
+          "Filter out all non-country administrative entries (such as 'Total', 'Unknown', or regional aggregates).",
+          "Reshape the dataset from wide format (years as columns) to long format (Year and Count columns) using tidyr::pivot_longer().",
+          "Calculate the year-over-year growth rate of total global immigration into Canada.",
+          "Find the top 3 countries in Europe with the highest immigration numbers in the 1980s (1980–1989).",
+          "Identify countries where total immigration throughout 1980–2013 was less than 1,000 people.",
+          "Compute the median annual immigration numbers for developing vs. developed regions.",
+          "Export a subset containing only South Asian countries' annual data to a clean CSV file.",
+          "Perform a missing value check across all year columns and replace any NA entries with 0."
         ]
       },
       {
-        lab: "Lab 2: Data Structures",
+        lab: "Lab 2: Data Wrangling with R",
         questions: [
-          "Implement a custom Stack class using Python lists.",
-          "Write a program to remove duplicate elements from a list while maintaining order.",
-          "Create a dictionary of student marks and compute the average score."
+          "Load a raw dataset into R using read.csv() and inspect the first and last 10 records using head() and tail().",
+          "Identify and drop duplicate rows from a dataframe using unique() or dplyr::distinct().",
+          "Convert character-formatted numerical columns (e.g., '$1,250.50') into pure numeric data types using gsub() and as.numeric().",
+          "Detect missing values across all columns using is.na() and compute the column-wise count of NA values.",
+          "Impute missing numeric values using column median values and missing character values with 'Unknown'.",
+          "Strip leading, trailing, and excessive whitespace from all text columns using trimws() and gsub().",
+          "Standardize all character data in a State or Country column to Title Case using stringr::str_to_title().",
+          "Convert string date columns formatted as 'YYYY-MM-DD' into formal Date objects using as.Date() or lubridate::ymd().",
+          "Filter out invalid records where Age is negative (< 0) or greater than 120.",
+          "Identify string spelling mistakes in a categorical column and perform mapping fixes using dplyr::mutate() and case_when().",
+          "Remove entirely blank or empty string rows from the dataframe.",
+          "Validate email address format using regular expressions (grep() / grepl()) and tag invalid patterns.",
+          "Perform an inner join on two separate datasets sharing a common key Student_ID using dplyr::inner_join().",
+          "Perform a left join to combine student demographics with exam score datasets while preserving all student records.",
+          "Parse and separate a single Full_Name column into First_Name and Last_Name columns using tidyr::separate().",
+          "Replace specific code strings (e.g., 'M', 'F') with standardized labels ('Male', 'Female').",
+          "Identify and remove structural outliers in a Salary column using the Interquartile Range (IQR) method.",
+          "Convert categorical variables into factors and reorder their level hierarchies explicitly.",
+          "Reorder dataset columns logically, placing ID fields first followed by metrics and timestamps.",
+          "Save the final cleaned and wrangled dataset into a formatted CSV file using write.csv(..., row.names = FALSE)."
         ]
       },
       {
-        lab: "Lab 3: Object-Oriented Programming",
+        lab: "Lab 3: Data Visualization using R",
         questions: [
-          "Design a BankAccount class with deposit, withdraw, and display operations.",
-          "Implement inheritance demonstrating method overriding using Shape and Circle classes.",
-          "Create a class to demonstrate private attributes and encapsulation."
+          "Create a basic histogram of a numerical variable (e.g., Exam_Scores) using base R hist().",
+          "Customize the histogram using ggplot2::geom_histogram(), adjusting bin width to 10 and setting fill colors to blue.",
+          "Superimpose a density curve over a histogram in ggplot2 using aes(y = ..density..).",
+          "Construct a horizontal box plot to display the distribution of Income across different Education levels using ggplot2.",
+          "Annotate outliers explicitly on a box plot using geom_boxplot(outlier.colour = 'red').",
+          "Generate a violin plot using geom_violin() to compare distribution density across multiple groups.",
+          "Combine a box plot inside a violin plot (geom_violin() + geom_boxplot(width = 0.1)) for hybrid visual analysis.",
+          "Create a count plot displaying the frequency of categorical values using ggplot2::geom_bar().",
+          "Order the bars of a count plot in descending frequency order using reorder().",
+          "Generate a stacked count plot to display sub-category distributions within primary categories.",
+          "Compute a correlation matrix for all numeric columns in a dataset using cor().",
+          "Render a correlation heatmap using ggcorrplot or ggplot2::geom_tile().",
+          "Apply a custom color gradient (scale_fill_gradient2()) to a heatmap ranging from blue (low) to white (mid) to red (high).",
+          "Add numerical value annotations over each tile cell inside a heatmap visual.",
+          "Customize plot titles, subtitles, and axis labels using labs() in ggplot2.",
+          "Apply theme_minimal() and adjust font sizes for presentation-ready visual outputs.",
+          "Facet a histogram across different geographic regions using facet_wrap(~ Region).",
+          "Save high-resolution visual plots directly to disk as PNG files using ggsave().",
+          "Create a side-by-side grouped bar plot comparing category counts across two years.",
+          "Plot a violin plot with customized split halves or overlaid jitter points (geom_jitter()) to highlight raw sample size."
         ]
       },
       {
-        lab: "Lab 4: File Handling & Exceptions",
+        lab: "Lab 4: Case Study - Real-Time Cryptocurrency Analysis",
         questions: [
-          "Write a program to count word frequencies in a given text file.",
-          "Create a script that safely handles ZeroDivisionError and ValueError during user input.",
-          "Write a program to append timestamped logs to a log file."
+          "Install and load necessary R packages (httr, jsonlite, quantmod, tidyverse) for API consumption and analysis.",
+          "Fetch live real-time price data for Bitcoin (BTC) and Ethereum (ETH) from a public REST API using GET().",
+          "Parse the JSON response body into a clean R data.frame using fromJSON().",
+          "Extract timestamp, price, 24-hour volume, and 24-hour price change percentage fields into a structured table.",
+          "Convert UNIX epoch API timestamps into human-readable POSIXct datetime objects in R.",
+          "Pull historical daily price data for top cryptocurrencies over the past 365 days.",
+          "Plot a time-series line chart of Bitcoin’s daily closing price using ggplot2::geom_line().",
+          "Calculate a 20-day and 50-day Simple Moving Average (SMA) for BTC prices using TTR::SMA().",
+          "Overlay the 20-day and 50-day SMA lines onto the raw historical price time-series plot.",
+          "Calculate daily price returns percentage: ((P_t - P_{t-1}) / P_{t-1}) * 100.",
+          "Plot a histogram and density curve of daily price returns to evaluate market volatility.",
+          "Compute the annualized volatility (standard deviation of daily returns * sqrt(365)) for top 5 crypto assets.",
+          "Calculate the Pearson correlation matrix between daily returns of Bitcoin, Ethereum, Solana, and Cardano.",
+          "Construct a heatmap visualizing price correlation across cryptocurrency pairs.",
+          "Identify days where intraday price fluctuation exceeded 10% and flag them as high-volatility events.",
+          "Plot Exponential Moving Average (EMA) and Relative Strength Index (RSI) metrics using the quantmod package.",
+          "Build an automated R script function that refreshes and appends live price ticks every 60 seconds.",
+          "Compute cumulative returns for a hypothetical equal-weighted portfolio of 3 crypto assets over 6 months.",
+          "Generate a comparative line chart visualizing relative growth ($100 base investment) across top cryptocurrencies.",
+          "Export the live aggregated cryptocurrency dataset and summary metrics to an SQLite database or clean CSV file."
         ]
       },
       {
-        lab: "Lab 5: Web Scraping & APIs",
+        lab: "Lab 5: Data Visualization with Tableau",
         questions: [
-          "Fetch JSON data from a public API endpoint and extract specific fields.",
-          "Parse basic HTML content using BeautifulSoup to extract all links.",
-          "Write a program to download images from a list of URLs."
+          "Connect Tableau Desktop / Web Authoring to an Excel data source and preview table relationships.",
+          "Build a Histogram in Tableau to show the distribution of customer age, setting bin sizes manually to 5 years.",
+          "Build a horizontal Bar Chart showing Total Sales by Product Category, sorted in descending order.",
+          "Create a stacked Bar Chart to display Sales broken down by Region within each Category.",
+          "Create a Pie Chart displaying the percentage share of overall profit by Customer Segment.",
+          "Build a Scatter Plot mapping Sales (X-axis) vs. Profit (Y-axis) for individual orders.",
+          "Add a Trend Line and linear regression equation over your Scatter Plot visual.",
+          "Create a Heatmap displaying Total Profit across Product Sub-Categories (Rows) and Regions (Columns).",
+          "Apply a custom Color Palette (Diverging Red-Green) to color-code profitability levels on a Heatmap.",
+          "Create a discrete dimension Filter for Order Year and configure it as a single-select dropdown.",
+          "Apply a Range-of-Values measure filter to display only orders with Sales greater than $1,000.",
+          "Create a Context Filter to ensure Top-N product filtering evaluates after geographic region selection.",
+          "Create a Calculated Field in Tableau to compute Profit Ratio = SUM([Profit]) / SUM([Sales]).",
+          "Build an Interactive Dashboard integrating a Bar Chart, Scatter Plot, and Heatmap.",
+          "Configure Dashboard Actions so clicking a Region in the Bar Chart filters all other visuals on the dashboard.",
+          "Format dashboard components using container layouts, adding custom titles, borders, and padding.",
+          "Add dynamic Tooltips to your Scatter Plot displaying Order ID, Customer Name, and exact Profitability.",
+          "Publish your interactive workbook to Tableau Online / Tableau Server via Web Authoring.",
+          "Export the finalized Dashboard view into PDF and high-resolution PNG file formats.",
+          "Set up a dynamic visual parameter allowing users to switch metrics between Sales, Profit, and Quantity dynamically."
+        ]
+      },
+      {
+        lab: "Lab 6: Case Study on Super Store Dataset Analysis using Tableau",
+        questions: [
+          "Load the Sample - Superstore dataset into Tableau and inspect the Orders, Returns, and People tables.",
+          "Join the Orders table with the Returns table using an Inner Join on Order ID to isolate returned merchandise.",
+          "Identify the top 10 most profitable customers in the Superstore dataset using Top-N filtering.",
+          "Create a map visual showing Sum of Sales by State, applying color intensity to represent volume.",
+          "Identify which Sub-Category in the 'Office Supplies' category yielded the lowest net profit in the latest recorded year.",
+          "Build a dual-axis chart overlaying total Sales (Bars) against Profit Ratio (Line) over time (Quarterly).",
+          "Calculate the total financial loss incurred due to returned orders broken down by Product Sub-Category.",
+          "Create custom Bins for Sales (bin size = $100) and plot a Frequency Distribution Bar Chart.",
+          "Analyze regional shipping performance by calculating the average days to ship (DATEDIFF('day', [Order Date], [Ship Date])).",
+          "Build a Highlight Table showing Profitability across Ship Modes (Standard, Second Class, Same Day) and Regions.",
+          "Create a dynamic Grouping for high-value brands (e.g., Apple, Technology accessories) vs. generic products.",
+          "Determine which State accounts for the highest discount percentages and evaluate its impact on net profit.",
+          "Add a Reference Line displaying the overall average monthly sales across a 4-year trend chart.",
+          "Create a Hierarchy starting from Country -> Region -> State -> City -> Postal Code.",
+          "Use Tableau Forecast tools to project Superstore sales totals for the upcoming 4 quarters.",
+          "Calculate customer lifetime value by aggregating total historical sales per individual Customer ID.",
+          "Perform cluster analysis (K-Means) on customer purchasing behavior based on Sales and Order Frequency.",
+          "Assemble an Executive Sales & Operations Dashboard combining key performance indicators (KPI Cards), maps, and trends.",
+          "Add an interactive Filter Action that highlights returned items when clicking on specific state regions.",
+          "Publish the finalized Superstore Executive Dashboard to Tableau Public and generate an embed URL."
         ]
       }
     ];
 
-    // Simple deterministic PRNG based on Student ID (Ensures consistent questions upon refresh)
+    // Seeded Random Number Generator based on Student ID
     function pseudoRandom(seed) {
       let numericSeed = 0;
       for (let i = 0; i < seed.length; i++) {
@@ -89,7 +255,7 @@
       };
     }
 
-    // Pick 4 random questions from the pooled lab activities
+    // Pick 4 random questions from across all lab activities deterministically
     function getQuestionsForStudent(studentId) {
       const rng = pseudoRandom(studentId);
       const allQuestions = [];
@@ -100,7 +266,7 @@
         });
       });
 
-      // Fisher-Yates Shuffle using custom seed
+      // Fisher-Yates Shuffle
       for (let i = allQuestions.length - 1; i > 0; i--) {
         const j = Math.floor(rng() * (i + 1));
         [allQuestions[i], allQuestions[j]] = [allQuestions[j], allQuestions[i]];
@@ -115,18 +281,13 @@
       const [assignedQuestions, setAssignedQuestions] = useState([]);
       const [errorMsg, setErrorMsg] = useState('');
 
-      // Add security event listeners
       useEffect(() => {
         const handleContextMenu = (e) => e.preventDefault();
         
         const handleKeyDown = (e) => {
-          // Disable F12
           if (e.keyCode === 123) e.preventDefault();
-          // Disable Ctrl+Shift+I, J, C
           if (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase())) e.preventDefault();
-          // Disable Ctrl+U (View Source)
           if (e.ctrlKey && e.key.toUpperCase() === 'U') e.preventDefault();
-          // Disable Ctrl+C, Ctrl+X, Ctrl+A, Ctrl+S
           if (e.ctrlKey && ['C', 'X', 'A', 'S'].includes(e.key.toUpperCase())) e.preventDefault();
         };
 
@@ -160,7 +321,7 @@
       };
 
       return (
-        <div class="container py-5">
+        <div className="container py-5">
           {!activeStudent ? (
             <div className="row justify-content-center">
               <div className="col-md-5">
